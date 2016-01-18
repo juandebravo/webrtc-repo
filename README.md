@@ -1,1 +1,1 @@
-docco -l classic -c docco-sdp.css sdp-explanation/src/*
+This repository is intended to be used to share practices in regars to WebRTC.

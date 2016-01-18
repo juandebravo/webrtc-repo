@@ -11,6 +11,27 @@
   <div id="container">
     <div id="background"></div>
     
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="README.html">
+                README.md
+              </a>
+            
+              
+              <a class="source" href="sdp-offer.html">
+                sdp-offer.coffee
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
     <ul class="sections">
         
           <li id="title">
@@ -40,8 +61,22 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>This is an example of the SDP payload used in the TU Go web client while sending an offer from the client using Chrome version 47.</p>
-<p><pre><a href="#section-3">v=0</a></p>
+              <p>WebRTC 1.0 identifies <a href="https://foo.bar">SDP</a> as the standard that should be used for media negotiation between peers.</p>
+<h2 id="chrome-payload">Chrome payload</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>This is an example of the SDP payload used in the TU Go web client while sending an offer from the client runnin on <strong>Chrome version 47</strong>.</p>
+<p><pre><a href="#section-4">v=0</a></p>
 <p>o=- 267107056528738969 2 IN IP4 127.0.0.1</p>
 <p>s=-</p>
 <p>t=0 0</p>
@@ -90,11 +125,11 @@ is heavily inspired by <a href="https://webrtchacks.com/sdp-anatomy/">WebRTC Hac
         </li>
         
         
-        <li id="section-3">
+        <li id="section-4">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-3">&#182;</a>
+                <a class="pilcrow" href="#section-4">&#182;</a>
               </div>
               <p><strong>Version of SDP</strong> being used.</p>
 
@@ -105,20 +140,22 @@ is heavily inspired by <a href="https://webrtchacks.com/sdp-anatomy/">WebRTC Hac
         </li>
         
         
-        <li id="section-4">
+        <li id="section-5">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-4">&#182;</a>
+                <a class="pilcrow" href="#section-5">&#182;</a>
               </div>
-              <p>The first number, <code>267107056528738969</code>, is the <strong>session id</strong>,
+              <p><code>o</code> stands for <strong><a href="https://tools.ietf.org/html/rfc4566#section-5.2">origin</a></strong>.
+The slash, <code>-</code>, exposes that there’s no defined <strong>username</strong> is undefined.
+The first number, <code>267107056528738969</code>, is the <strong>session id</strong>,
 an unique identifier for the session.</p>
 <p>The second number, <code>2</code>, is the <strong>session version</strong>:
 if a new offer/answer negotiation is needed during this media session,
 this number will be increased by one.
 This will happen when any parameter need to be changed in the media
 session, such as on-hold, codec-change, add/remove media track.</p>
-<p>Following the sessiond version are the <strong>network type</strong> (Internet, <code>IN</code>),
+<p>Following the session version are the <strong>network type</strong> (Internet in this case, identified by means of <code>IN</code>),
 <strong>IP address type</strong> (version 4, <code>IP4</code>) and <strong>unicast address</strong> of the machine
 which created the SDP, <code>127.0.0.1</code>.
 These three values are not relevant for the negotiation.</p>
@@ -130,11 +167,11 @@ These three values are not relevant for the negotiation.</p>
         </li>
         
         
-        <li id="section-5">
+        <li id="section-6">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-5">&#182;</a>
+                <a class="pilcrow" href="#section-6">&#182;</a>
               </div>
               <p>The <code>s</code> line contains a <strong>textual session name</strong>, which is not commonly used.</p>
 
@@ -145,37 +182,18 @@ These three values are not relevant for the negotiation.</p>
         </li>
         
         
-        <li id="section-6">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-6">&#182;</a>
-              </div>
-              <p>It defines the <strong>starting and ending time</strong>. When they are both set
-to 0 it means that the session is not bounded to a specific time window.</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>t=<span class="hljs-number">0</span> <span class="hljs-number">0</span></pre></div></div>
-            
-        </li>
-        
-        
         <li id="section-7">
             <div class="annotation">
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-7">&#182;</a>
               </div>
-              <p><strong>BUNDLE</strong> grouping establishes a <strong>relationship between several
-media lines</strong> included in the SDP, commonly audio and video.
-In WebRTC it’s used to multiplex several media flows in the same RTP
-session as described in <a href="http://tools.ietf.org/html/draft-ietf-mmusic-sdp-bundle-negotiation">draft-ietf-mmusic-sdp-bundle-negotiation</a>.
-In this case the browser offers only audio.</p>
+              <p>It defines the <strong><a href="https://tools.ietf.org/html/rfc4566#page-17">starting and ending time</a></strong>. These values are the decimal representation of Network Time Protocol (NTP) time values in seconds since 1900.
+When they are both set to 0 it means that the session is not bounded to a specific time window, which is the usual behaviour.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>a=group:BUNDLE audio</pre></div></div>
+            <div class="content"><div class='highlight'><pre>t=<span class="hljs-number">0</span> <span class="hljs-number">0</span></pre></div></div>
             
         </li>
         
@@ -185,6 +203,26 @@ In this case the browser offers only audio.</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p><code>a</code> lines stand for <strong><a href="https://tools.ietf.org/html/rfc4566#section-5.13">attributes</a></strong>
+<strong>BUNDLE</strong> grouping establishes a <strong>relationship between several
+media lines</strong> included in the SDP, commonly audio and video.
+In WebRTC it’s used to multiplex several media flows in the same RTP
+session as described in <a href="http://tools.ietf.org/html/draft-ietf-mmusic-sdp-bundle-negotiation">draft-ietf-mmusic-sdp-bundle-negotiation</a>.
+In this case the browser <em>offers only audio</em>, as TU Go is currently offering audio while initiating a media session. <em>Video</em> is offered via Opentok (another webRTC session) if the user requests upgrading an established call to Video (it’s possible only if the other end supports video as well).</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>a=group:BUNDLE audio</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
               </div>
               <p>This line gives an <strong>unique identifier for the
 <a href="http://w3c.github.io/mediacapture-main/getusermedia.html#stream-api">WebRTC Media Stream (WMS)</a></strong>
@@ -205,11 +243,11 @@ For more info about this refer to
         </li>
         
         
-        <li id="section-9">
+        <li id="section-10">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-9">&#182;</a>
+                <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
               <p><code>m</code> means it is a <strong>media line</strong>. It condenses a lot of information
 on the media attributes of the stream. In this order, it tells us:</p>
@@ -241,9 +279,9 @@ to encoding formats by the IANA. In our SDP:</p>
 <li><code>13</code> maps to <a href="http://tools.ietf.org/html/rfc3389">CN</a>.</li>
 </ul>
 <p>Format numbers larger than 95 are dynamic.
-We will see how <code>a=rtpmap:</code> attributes are used for mapping from the RTP payload type
-numbers to media encoding names.
-There are also <code>a=fmtp:</code> attributes which specify format parameters.</p>
+We will see below how <code>a=rtpmap:</code> attributes are used for mapping from the RTP payload type
+numbers to media encoding names (i.e. 111 identifies OPUS).
+There are also <code>a=fmtp:</code> attributes, which are used to specify format parameters.</p>
 
             </div>
             
@@ -252,11 +290,11 @@ There are also <code>a=fmtp:</code> attributes which specify format parameters.<
         </li>
         
         
-        <li id="section-10">
+        <li id="section-11">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-10">&#182;</a>
+                <a class="pilcrow" href="#section-11">&#182;</a>
               </div>
               <p><code>c</code> is a <strong>connection line</strong>.
 First two parameters indicate the <strong>network type</strong> (<code>IN</code>, Internet), and the
@@ -272,14 +310,14 @@ port in the previous line, here it’s used an IP that is non-routable, <code>0.
         </li>
         
         
-        <li id="section-11">
+        <li id="section-12">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-11">&#182;</a>
+                <a class="pilcrow" href="#section-12">&#182;</a>
               </div>
-              <p>This line explicitly specifies the IP and port that will used for RTCP. As while creating the SDP those
-values are unknown, currently the values are the default ones (port <code>9</code>, IP <code>0.0.0.0</code>).</p>
+              <p>This line explicitly specifies the IP and port that will used for RTCP. While creating the SDP those
+values are unknown, that’s why the values are the default ones (port <code>9</code>, IP <code>0.0.0.0</code>).</p>
 
             </div>
             
@@ -288,11 +326,11 @@ values are unknown, currently the values are the default ones (port <code>9</cod
         </li>
         
         
-        <li id="section-12">
+        <li id="section-13">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-12">&#182;</a>
+                <a class="pilcrow" href="#section-13">&#182;</a>
               </div>
               <p>Next we have the <strong>ICE lines</strong>, which is the mechanism chosen for NAT traversal in WebRTC.
 You can find a very didactic and comprehensive explanation of ICE by <a href="https://www.twitter.com/saghul">@saghul</a>
@@ -310,14 +348,14 @@ a=ice-pwd:YC88frVagqjvoBpOVAd+yOCH</pre></div></div>
         </li>
         
         
-        <li id="section-13">
+        <li id="section-14">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-13">&#182;</a>
+                <a class="pilcrow" href="#section-14">&#182;</a>
               </div>
               <p>This <code>fingerprint</code> is the result of a hash function (using <code>sha-256</code> in this case)
-of the certificates used in the DTLS-SRTP negotiation. This line creates a binding between the signaling
+of the certificates used in the <strong><a href="https://webrtchacks.com/webrtc-must-implement-dtls-srtp-but-must-not-implement-sdes/">DTLS-SRTP negotiation</a></strong>. This line creates a binding between the signaling
 (which is supposed to be trusted) and the certificates used in DTLS, if the fingerprint doesn’t match,
 then the session should be rejected.</p>
 
@@ -328,11 +366,11 @@ then the session should be rejected.</p>
         </li>
         
         
-        <li id="section-14">
+        <li id="section-15">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-14">&#182;</a>
+                <a class="pilcrow" href="#section-15">&#182;</a>
               </div>
               <p>This parameter means that this peer can be the server or the client which starts
 the DTLS negotiation. This parameter was initially defined in <a href="http://tools.ietf.org/html/rfc4145">RFC4145</a>,
@@ -345,11 +383,11 @@ which has been updated by <a href="http://tools.ietf.org/html/rfc4572">RFC4572</
         </li>
         
         
-        <li id="section-15">
+        <li id="section-16">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-15">&#182;</a>
+                <a class="pilcrow" href="#section-16">&#182;</a>
               </div>
               <p>This is the identifier which is used in the <strong>BUNDLE line</strong>.</p>
 
@@ -360,11 +398,11 @@ which has been updated by <a href="http://tools.ietf.org/html/rfc4572">RFC4572</
         </li>
         
         
-        <li id="section-16">
+        <li id="section-17">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-16">&#182;</a>
+                <a class="pilcrow" href="#section-17">&#182;</a>
               </div>
               <p><a href="http://www.ietf.org/rfc/rfc3550.txt">RFC3550</a> defines the capability to <strong>extend the RTP header</strong>.
 This line defines extensions which will be used in RTP headers so that the receiver
@@ -379,11 +417,11 @@ level in the RTP header as defined in <a href="http://tools.ietf.org/html/rfc646
         </li>
         
         
-        <li id="section-17">
+        <li id="section-18">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-17">&#182;</a>
+                <a class="pilcrow" href="#section-18">&#182;</a>
               </div>
               <p><a href="http://www.ietf.org/rfc/rfc3550.txt">RFC3550</a> defines the capability to <strong>extend the RTP header</strong>.
 This line defines extensions which will be used in RTP headers so that the receiver
@@ -400,11 +438,11 @@ showing the departure time from the system that put this packet on the wire
         </li>
         
         
-        <li id="section-18">
+        <li id="section-19">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-18">&#182;</a>
+                <a class="pilcrow" href="#section-19">&#182;</a>
               </div>
               <p>This line says that the browser is willing to both <strong>send and receive audio</strong> in this session.
 Other values could be <code>sendonly</code>, <code>recvonly</code> and <code>inactive</code> which are used to implement
@@ -417,11 +455,11 @@ different scenarios like putting calls on-hold.</p>
         </li>
         
         
-        <li id="section-19">
+        <li id="section-20">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-19">&#182;</a>
+                <a class="pilcrow" href="#section-20">&#182;</a>
               </div>
               <p>This lines means that this peer <strong>supports
 <a href="http://tools.ietf.org/search/rfc5761">multiplexing RTCP with RTP traffic</a></strong>.</p>
@@ -433,11 +471,11 @@ different scenarios like putting calls on-hold.</p>
         </li>
         
         
-        <li id="section-20">
+        <li id="section-21">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-20">&#182;</a>
+                <a class="pilcrow" href="#section-21">&#182;</a>
               </div>
               <p>Now we come to the <strong>rtpmap lines</strong> for the formats included in the <code>m</code> lines above.
 This is required for mapping the payload types and the codecs.</p>
@@ -454,11 +492,11 @@ common and it has become critical for most WebRTC applications.</p>
         </li>
         
         
-        <li id="section-21">
+        <li id="section-22">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-21">&#182;</a>
+                <a class="pilcrow" href="#section-22">&#182;</a>
               </div>
               <p>SDP payload includes <strong>fmtp lines</strong> to describe characteristics of the offered codecs.
 The order in which the formats are written in the media line is important as <em>it
@@ -468,7 +506,7 @@ should expect to receive for Opus. If no value is specified, 3 is
 assumed as default.</p>
 <p><code>useinbandfec</code> specifies that the decoder has the capability to take
 advantage of the Opus in-band FEC
-(<a href="https://tools.ietf.org/html/draft-spittka-payload-rtp-opus-03#page-6">Forward Error Correction</a>.
+(<a href="https://tools.ietf.org/html/draft-spittka-payload-rtp-opus-03#page-6">Forward Error Correction</a>).
 Possible values are 1 and 0. If no value is specified, useinbandfec is assumed to be 0.</p>
 
             </div>
@@ -478,19 +516,18 @@ Possible values are 1 and 0. If no value is specified, useinbandfec is assumed t
         </li>
         
         
-        <li id="section-22">
+        <li id="section-23">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-22">&#182;</a>
+                <a class="pilcrow" href="#section-23">&#182;</a>
               </div>
-              <p>The <strong>ISAC</strong> (Internet Speech Audio Codec) is a wideband speech codec
-for high quality conferences. The 16000 indicates that ISAC is going to be used at 16kbps.
-Because this is first, 16kbps will be considered before ISAC at 32kbps
+              <p>The <strong><a href="https://webrtc.org/faq/#what-is-the-isac-audio-codec">ISAC</a></strong> (Internet Speech Audio Codec) is a wideband speech codec
+for high quality conferences.</p>
+<p>The <code>16000</code> indicates that ISAC is going to be used at <code>16kbps</code>.
+Because this is first, <code>16kbps</code> will be considered before ISAC at <code>32kbps</code>
 as specified in the next line.</p>
-<p>In ISAC/32000, the 32000 indicates that ISAC is going to be used at 32kbps.</p>
-<p>Because this is after 16kpbs flavour, 16kbps will be considered before ISAC at 32kbps.
-Following those lines are the <code>rtpmap</code> lines mapping to the rest of lower priority codecs
+<p>Following those lines are the <code>rtpmap</code> lines mapping to the rest of lower priority codecs
 that the caller is offering.</p>
 <ul>
 <li><strong>G722</strong> is a 7 kHz audio-coding codec within 64 kbps. Even though the actual sampling
@@ -507,13 +544,13 @@ by the codec list in the media line (<code>m=audio[...]</code>).</li>
 Static payload type, <code>13</code>, is used whenever using codecs whose RTP timestamp
 clock rate is 8000 Hz, such as PCMU and PCMA.
 But as we’re including additional codecs with different
-RTP timestamp clock rate (ISAC), a dynamic payload type mapping (rtpmap attribute) is required.
-Note that <a href="https://tools.ietf.org/html/rfc7587">use of comfort zone with Opus is discouraged</a>.</li>
+RTP timestamp clock rate (ISAC), a dynamic payload type mapping (rtpmap attribute) is required (rtpmap <code>105</code> and <code>106</code>).
+Note that <a href="https://tools.ietf.org/html/rfc7587">use of comfort noise with Opus is discouraged</a>.</li>
 <li><strong>telephone-event</strong>: this line indicates the browser supports
 <a href="https://tools.ietf.org/html/rfc4733">RFC4733</a>, allowing it to send DTMFs
 (dual-tone multifrequency), other tone signals, and telephony
 events in RTP packets within the RTP not as the usual digitized sine waves
-but as a special payload (in this case with payload 126 in the RTP packet).
+but as a special payload (in this case with payload <code>126</code> in the RTP packet).
 This DTMF mechanism ensure that DTMFs will be transmitted independently of the audio codec
 and the signaling protocol.</li>
 </ul>
@@ -533,11 +570,11 @@ a=rtpmap:<span class="hljs-number">126</span> telephone-event/<span class="hljs-
         </li>
         
         
-        <li id="section-23">
+        <li id="section-24">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-23">&#182;</a>
+                <a class="pilcrow" href="#section-24">&#182;</a>
               </div>
               <p>The <code>ptime</code>, <strong>packetization time</strong>, refers to the media duration, in milliseconds, to include
 in each RTP packet. This has important implications on the effects of packet loss and in the
@@ -550,17 +587,14 @@ overhead for the stream.</p>
         </li>
         
         
-        <li id="section-24">
+        <li id="section-25">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-24">&#182;</a>
+                <a class="pilcrow" href="#section-25">&#182;</a>
               </div>
               <p><strong>SSRC</strong> stands for Synchronization Source and it is an unique identifier of the
-RTP media stream source. These lines establish a relationship between the SSRC flow identifier</p>
-<ul>
-<li>an older RTP concept – to a WebRTC Media Stream – a newer WebRTC concept.</li>
-</ul>
+RTP media stream source. These lines establish a relationship between the SSRC flow identifier, an older RTP concept, to a WebRTC Media Stream, a newer WebRTC concept.</p>
 <p>The <code>cname</code> source attribute associates a media source with its
 <a href="http://www.freesoft.org/CIE/RFC/1889/24.htm">Canonical End-Point Identifier</a>
 which will remain constant for the RTP media stream.
@@ -570,10 +604,8 @@ This is the value that the media sender will place in its
 and the WebRTC concept of <code>media stream/media stream track</code> using SDP signaling
 (<a href="http://tools.ietf.org/html/draft-ietf-mmusic-msid">draft-ietf-mmusic-msid</a>).
 The first number, <em>655607873</em>, is the SSRC identifier that will be included in the SSRC field
-of the RTP packets. Following msid: we have the unique identifier included  in the semantic.</p>
-<p>The <code>mslabel</code> attribute: Honestly, I has not been able to totally understand the mslabel attribute.
-Looking at this <a href="http://www.ietf.org/mail-archive/web/mmusic/current/msg09780.html">mail thread</a>
-I understand that is a deprecated attribute which a function similar to msid.</p>
+of the RTP packets. Following <code>msid:</code> we have the unique identifier included  in the semantic.</p>
+<p>The <code>mslabel</code> attribute: It looks like a <a href="https://lists.w3.org/Archives/Public/public-webrtc/2014Sep/0058.html">deprecated attribute</a>.</p>
 <p>The <code>label</code> attribute carries a pointer to a RTP media stream in the context of an
 arbitrary network application that uses SDP. This label can be used to refer to each
 particular media stream in its context.</p>
@@ -588,11 +620,11 @@ a=ssrc:<span class="hljs-number">655607873</span> label:<span class="hljs-number
         </li>
         
         
-        <li id="section-25">
+        <li id="section-26">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-25">&#182;</a>
+                <a class="pilcrow" href="#section-26">&#182;</a>
               </div>
               <p>With these lines, our browser is giving its host candidates, it means, the IP of the interface
 or interfaces the browser is listening on the computer.
@@ -602,18 +634,18 @@ For example, if the other computer is on the same LAN, hosts candidates will be 
 <p>The first number in the candidate line is the <strong>foundation</strong>, an identifier used within the
 ICE session in the process to discover valid candidates (specifically in the
 <a href="http://tools.ietf.org/html/rfc5245#section-2.4">ICE frozen algorithm</a>).</p>
-<p>The number before the protocol (udp) determines the <strong>component</strong>; 1 is for RTP and 2 is for RTCP.</p>
-<p>The number after the protocol (udp) - 2122260223 - is the priority of the candidate.
-Notice that priority of <code>host</code> candidates is the higher than other candidates as using
-host candidates are more efficient in terms of use of resources.
+<p>The number before the protocol (udp) determines the <strong>component</strong>; <code>1</code> is for RTP and <code>2</code> is for RTCP.</p>
+<p>The number after the protocol (udp) - <code>2122260223</code> - is the priority of the candidate.
+Notice that priority of <code>host</code> candidates is higher than other candidates as using
+host candidates is more efficient in terms of resources usage.
 Note that TCP candidates get lower <code>priority</code> than UDP ones, as TCP is not optimal for
 real-time media transportation.</p>
 <p><code>srflx</code> identifies the server reflexive candidates. Note that they have lower priority
-than host candidates. These candidates are discovered thanks to STUN server.
-The couple public public IP-port are included after the priority.
+than host candidates. These candidates are discovered thanks to <strong>STUN server</strong>.
+The couple public IP-port are included after the priority.
 The couple private IP-port after typ srflx raddr are the private IP:port related
 (there is a NAT binding) to the public IP:port where the traffic is going to be received.
-In case we have any relay candidate, it will be obtained from a TURN server which must
+In case we have any relay candidate, it will be obtained from a <strong>TURN server</strong> which must
 be provisioned when creating the RTC peer connection. The priority will be lower than
 the host and reflex candidates as relay should be used if <em>hole punching</em> is not working
 with host and reflex candidates. For testing purposes you could use the open source
@@ -632,76 +664,74 @@ a=candidate:<span class="hljs-number">1521601408</span> <span class="hljs-number
         </li>
         
         
-        <li id="section-26">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-26">&#182;</a>
-              </div>
-              <h2 id="comparing-with-firefox">Comparing with Firefox</h2>
-
-            </div>
-            
-        </li>
-        
-        
         <li id="section-27">
             <div class="annotation">
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-27">&#182;</a>
               </div>
-              <pre>v=0
+              <h2 id="firefox-payload">Firefox payload</h2>
 
-o=mozilla...THIS_IS_SDPARTA-43.0.4 4597359579147920938 0 IN IP4 0.0.0.0
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>Below you can find the SDP offered while doing an outbound call from TU Go web client running on Firefox 43.0.4. Main differences are:</p>
+<ul>
+<li>in <code>o</code> line includes a browser description (instead of <code>-</code>).</li>
+<li>includes <a href="https://tools.ietf.org/html/draft-ietf-mmusic-trickle-ice-02">trickle ice</a> in the SDP.</li>
+<li>it does not offer neither <code>ISAC</code> nor <code>Telephone event</code> codecs.</li>
+<li>it does not include <code>BUNDLE</code> support.</li>
+<li>Audio media in <code>m</code> line is identified as <code>sdparta_0</code> instead of <code>audio</code>.</li>
+<li>it does not include <code>TCP candidates</code>.</li>
+</ul>
 
-s=-
-
-t=0 0
-
-a=fingerprint:sha-256 CE:A2:27:E9:AE:B3:8D:AB:09:2F:AF:20:49:3B:26:6C:82:F7:7C:90:7E:95:C1:BA:F0:DB:B0:B6:7B:AE:DE:7F
-
-a=ice-options:trickle
-
-a=msid-semantic:WMS *
-
-m=audio 9 UDP/TLS/RTP/SAVPF 109 9 0 8
-
-c=IN IP4 0.0.0.0
-
-a=sendrecv
-
-a=extmap:1 urn:ietf:params:rtp-hdrext:ssrc-audio-level
-
-a=ice-pwd:1159da14ac942703cfaaf5f555b3b328
-
-a=ice-ufrag:1cc314ac
-
-a=mid:sdparta_0
-
-a=msid:{36f0e5dc-9d60-e946-ae2e-74c2e7d5903d} {348bfe05-64b1-024c-82ad-020fae6cc4f7}
-
-a=rtcp-mux
-
-a=rtpmap:109 opus/48000/2
-
-a=rtpmap:9 G722/8000/1
-
-a=rtpmap:0 PCMU/8000
-
-a=rtpmap:8 PCMA/8000
-
-a=setup:actpass
-
-a=ssrc:2570988474 cname:{d63d835b-1994-b14e-a1ee-32ce8031e8c9}
-
-a=candidate:0 1 UDP 2122252543 192.168.1.40 64727 typ host
-
-a=candidate:0 2 UDP 2122252542 192.168.1.40 61922 typ host
-
-a=candidate:1 1 UDP 1686052863 88.25.237.250 64727 typ srflx raddr 192.168.1.40 rport 64727
-
-a=candidate:1 2 UDP 1686052862 88.25.237.250 61922 typ srflx raddr 192.168.1.40 rport 61922</pre>
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <p><pre>v=0</p>
+<p>o=mozilla…THIS_IS_SDPARTA-43.0.4 4597359579147920938 0 IN IP4 0.0.0.0</p>
+<p>s=-</p>
+<p>t=0 0</p>
+<p>a=fingerprint:sha-256 CE:A2:27:E9:AE:B3:8D:AB:09:2F:AF:20:49:3B:26:6C:82:F7:7C:90:7E:95:C1:BA:F0:DB:B0:B6:7B:AE:DE:7F</p>
+<p>a=ice-options:trickle</p>
+<p>a=msid-semantic:WMS *</p>
+<p>m=audio 9 UDP/TLS/RTP/SAVPF 109 9 0 8</p>
+<p>c=IN IP4 0.0.0.0</p>
+<p>a=sendrecv</p>
+<p>a=extmap:1 urn:ietf:params:rtp-hdrext:ssrc-audio-level</p>
+<p>a=ice-pwd:1159da14ac942703cfaaf5f555b3b328</p>
+<p>a=ice-ufrag:1cc314ac</p>
+<p>a=mid:sdparta_0</p>
+<p>a=msid:{36f0e5dc-9d60-e946-ae2e-74c2e7d5903d} {348bfe05-64b1-024c-82ad-020fae6cc4f7}</p>
+<p>a=rtcp-mux</p>
+<p>a=rtpmap:109 opus/48000/2</p>
+<p>a=rtpmap:9 G722/8000/1</p>
+<p>a=rtpmap:0 PCMU/8000</p>
+<p>a=rtpmap:8 PCMA/8000</p>
+<p>a=setup:actpass</p>
+<p>a=ssrc:2570988474 cname:{d63d835b-1994-b14e-a1ee-32ce8031e8c9}</p>
+<p>a=candidate:0 1 UDP 2122252543 192.168.1.40 64727 typ host</p>
+<p>a=candidate:0 2 UDP 2122252542 192.168.1.40 61922 typ host</p>
+<p>a=candidate:1 1 UDP 1686052863 88.25.237.250 64727 typ srflx raddr 192.168.1.40 rport 64727</p>
+<p>a=candidate:1 2 UDP 1686052862 88.25.237.250 61922 typ srflx raddr 192.168.1.40 rport 61922</pre>
+</pre>
+&nbsp;</p>
 
             </div>
             

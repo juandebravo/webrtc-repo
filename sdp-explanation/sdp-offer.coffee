@@ -1,7 +1,11 @@
 # Introduction
 # ----------------
-# This is an example of the SDP payload used in the TU Go web client while sending an offer from the client using Chrome version 47.
-#<pre><a href="#section-3">v=0</a>
+# WebRTC 1.0 identifies [SDP](https://foo.bar) as the standard that should be used for media negotiation between peers.
+#
+# Chrome payload
+# --------------
+# This is an example of the SDP payload used in the TU Go web client while sending an offer from the client runnin on **Chrome version 47**.
+#<pre><a href="#section-4">v=0</a>
 #
 #o=- 267107056528738969 2 IN IP4 127.0.0.1
 #
@@ -87,6 +91,8 @@
 # **Version of SDP** being used.
 v=0
 
+# `o` stands for **[origin](https://tools.ietf.org/html/rfc4566#section-5.2)**.
+# The slash, `-`, exposes that there's no defined **username** is undefined.
 # The first number, `267107056528738969`, is the **session id**,
 # an unique identifier for the session.
 #
@@ -96,7 +102,7 @@ v=0
 # This will happen when any parameter need to be changed in the media
 # session, such as on-hold, codec-change, add/remove media track.
 #
-# Following the sessiond version are the **network type** (Internet, `IN`),
+# Following the session version are the **network type** (Internet in this case, identified by means of `IN`),
 # **IP address type** (version 4, `IP4`) and **unicast address** of the machine
 # which created the SDP, `127.0.0.1`.
 # These three values are not relevant for the negotiation.
@@ -105,15 +111,16 @@ o=- 267107056528738969 2 IN IP4 127.0.0.1
 # The `s` line contains a **textual session name**, which is not commonly used.
 s=-
 
-# It defines the **starting and ending time**. When they are both set
-# to 0 it means that the session is not bounded to a specific time window.
+# It defines the **[starting and ending time](https://tools.ietf.org/html/rfc4566#page-17)**. These values are the decimal representation of Network Time Protocol (NTP) time values in seconds since 1900.
+# When they are both set to 0 it means that the session is not bounded to a specific time window, which is the usual behaviour.
 t=0 0
 
+# `a` lines stand for **[attributes](https://tools.ietf.org/html/rfc4566#section-5.13)**
 # **BUNDLE** grouping establishes a **relationship between several
 # media lines** included in the SDP, commonly audio and video.
 # In WebRTC it’s used to multiplex several media flows in the same RTP
 # session as described in [draft-ietf-mmusic-sdp-bundle-negotiation](http://tools.ietf.org/html/draft-ietf-mmusic-sdp-bundle-negotiation).
-# In this case the browser offers only audio.
+# In this case the browser *offers only audio*, as TU Go is currently offering audio while initiating a media session. *Video* is offered via Opentok (another webRTC session) if the user requests upgrading an established call to Video (it's possible only if the other end supports video as well).
 a=group:BUNDLE audio
 
 # This line gives an **unique identifier for the
@@ -160,9 +167,9 @@ a=msid-semantic: WMS dBxfrHdjCoXIYb8pBDDDHhCGPDIG6TYDRQJ8
 # - `13` maps to [CN](http://tools.ietf.org/html/rfc3389).
 #
 # Format numbers larger than 95 are dynamic.
-# We will see how `a=rtpmap:` attributes are used for mapping from the RTP payload type
-# numbers to media encoding names.
-# There are also `a=fmtp:` attributes which specify format parameters.
+# We will see below how `a=rtpmap:` attributes are used for mapping from the RTP payload type
+# numbers to media encoding names (i.e. 111 identifies OPUS).
+# There are also `a=fmtp:` attributes, which are used to specify format parameters.
 m=audio 9 UDP/TLS/RTP/SAVPF 111 103 104 9 0 8 106 105 13 126
 
 # `c` is a **connection line**.
@@ -173,8 +180,8 @@ m=audio 9 UDP/TLS/RTP/SAVPF 111 103 104 9 0 8 106 105 13 126
 # port in the previous line, here it's used an IP that is non-routable, `0.0.0.0`.
 c=IN IP4 0.0.0.0
 
-# This line explicitly specifies the IP and port that will used for RTCP. As while creating the SDP those
-# values are unknown, currently the values are the default ones (port `9`, IP `0.0.0.0`).
+# This line explicitly specifies the IP and port that will used for RTCP. While creating the SDP those
+# values are unknown, that's why the values are the default ones (port `9`, IP `0.0.0.0`).
 a=rtcp:9 IN IP4 0.0.0.0
 
 # Next we have the **ICE lines**, which is the mechanism chosen for NAT traversal in WebRTC.
@@ -190,7 +197,7 @@ a=ice-ufrag:bzRv+Hl9e/MnTuO7
 a=ice-pwd:YC88frVagqjvoBpOVAd+yOCH
 
 # This `fingerprint` is the result of a hash function (using `sha-256` in this case)
-# of the certificates used in the DTLS-SRTP negotiation. This line creates a binding between the signaling
+# of the certificates used in the **[DTLS-SRTP negotiation](https://webrtchacks.com/webrtc-must-implement-dtls-srtp-but-must-not-implement-sdes/)**. This line creates a binding between the signaling
 # (which is supposed to be trusted) and the certificates used in DTLS, if the fingerprint doesn’t match,
 # then the session should be rejected.
 a=fingerprint:sha-256 BE:C0:9D:93:0B:56:8C:87:48:5F:57:F7:9F:A3:D2:07:D2:8C:15:3F:DC:CE:D7:96:2B:A7:6A:DE:B8:72:F0:76
@@ -248,18 +255,17 @@ a=rtpmap:111 opus/48000/2
 #
 # `useinbandfec` specifies that the decoder has the capability to take
 # advantage of the Opus in-band FEC
-# ([Forward Error Correction](https://tools.ietf.org/html/draft-spittka-payload-rtp-opus-03#page-6).
+# ([Forward Error Correction](https://tools.ietf.org/html/draft-spittka-payload-rtp-opus-03#page-6)).
 # Possible values are 1 and 0. If no value is specified, useinbandfec is assumed to be 0.
 a=fmtp:111 minptime=10; useinbandfec=1
 
-# The **ISAC** (Internet Speech Audio Codec) is a wideband speech codec
-# for high quality conferences. The 16000 indicates that ISAC is going to be used at 16kbps.
-# Because this is first, 16kbps will be considered before ISAC at 32kbps
+# The **[ISAC](https://webrtc.org/faq/#what-is-the-isac-audio-codec)** (Internet Speech Audio Codec) is a wideband speech codec
+# for high quality conferences.
+#
+# The `16000` indicates that ISAC is going to be used at `16kbps`.
+# Because this is first, `16kbps` will be considered before ISAC at `32kbps`
 # as specified in the next line.
 #
-# In ISAC/32000, the 32000 indicates that ISAC is going to be used at 32kbps.
-#
-# Because this is after 16kpbs flavour, 16kbps will be considered before ISAC at 32kbps.
 # Following those lines are the `rtpmap` lines mapping to the rest of lower priority codecs
 # that the caller is offering.
 # - **G722** is a 7 kHz audio-coding codec within 64 kbps. Even though the actual sampling
@@ -276,13 +282,13 @@ a=fmtp:111 minptime=10; useinbandfec=1
 # Static payload type, `13`, is used whenever using codecs whose RTP timestamp
 # clock rate is 8000 Hz, such as PCMU and PCMA.
 # But as we're including additional codecs with different
-# RTP timestamp clock rate (ISAC), a dynamic payload type mapping (rtpmap attribute) is required.
-# Note that [use of comfort zone with Opus is discouraged](https://tools.ietf.org/html/rfc7587).
+# RTP timestamp clock rate (ISAC), a dynamic payload type mapping (rtpmap attribute) is required (rtpmap `105` and `106`).
+# Note that [use of comfort noise with Opus is discouraged](https://tools.ietf.org/html/rfc7587).
 # - **telephone-event**: this line indicates the browser supports
 # [RFC4733](https://tools.ietf.org/html/rfc4733), allowing it to send DTMFs
 # (dual-tone multifrequency), other tone signals, and telephony
 # events in RTP packets within the RTP not as the usual digitized sine waves
-# but as a special payload (in this case with payload 126 in the RTP packet).
+# but as a special payload (in this case with payload `126` in the RTP packet).
 # This DTMF mechanism ensure that DTMFs will be transmitted independently of the audio codec
 # and the signaling protocol.
 a=rtpmap:103 ISAC/16000
@@ -301,8 +307,7 @@ a=rtpmap:126 telephone-event/8000
 a=maxptime:60
 
 # **SSRC** stands for Synchronization Source and it is an unique identifier of the
-# RTP media stream source. These lines establish a relationship between the SSRC flow identifier
-# - an older RTP concept – to a WebRTC Media Stream – a newer WebRTC concept.
+# RTP media stream source. These lines establish a relationship between the SSRC flow identifier, an older RTP concept, to a WebRTC Media Stream, a newer WebRTC concept.
 #
 # The `cname` source attribute associates a media source with its
 # [Canonical End-Point Identifier](http://www.freesoft.org/CIE/RFC/1889/24.htm)
@@ -314,11 +319,9 @@ a=maxptime:60
 # and the WebRTC concept of `media stream/media stream track` using SDP signaling
 # ([draft-ietf-mmusic-msid](http://tools.ietf.org/html/draft-ietf-mmusic-msid)).
 # The first number, *655607873*, is the SSRC identifier that will be included in the SSRC field
-# of the RTP packets. Following msid: we have the unique identifier included  in the semantic.
+# of the RTP packets. Following `msid:` we have the unique identifier included  in the semantic.
 #
-# The `mslabel` attribute: Honestly, I has not been able to totally understand the mslabel attribute.
-# Looking at this [mail thread](http://www.ietf.org/mail-archive/web/mmusic/current/msg09780.html)
-# I understand that is a deprecated attribute which a function similar to msid.
+# The `mslabel` attribute: It looks like a [deprecated attribute](https://lists.w3.org/Archives/Public/public-webrtc/2014Sep/0058.html).
 #
 # The `label` attribute carries a pointer to a RTP media stream in the context of an
 # arbitrary network application that uses SDP. This label can be used to refer to each
@@ -338,20 +341,20 @@ a=ssrc:655607873 label:920f6047-8df2-4ea5-b4f7-efff75e69688
 # ICE session in the process to discover valid candidates (specifically in the
 # [ICE frozen algorithm](http://tools.ietf.org/html/rfc5245#section-2.4)).
 #
-# The number before the protocol (udp) determines the **component**; 1 is for RTP and 2 is for RTCP.
+# The number before the protocol (udp) determines the **component**; `1` is for RTP and `2` is for RTCP.
 #
-# The number after the protocol (udp) - 2122260223 - is the priority of the candidate.
-# Notice that priority of `host` candidates is the higher than other candidates as using
-# host candidates are more efficient in terms of use of resources.
+# The number after the protocol (udp) - `2122260223` - is the priority of the candidate.
+# Notice that priority of `host` candidates is higher than other candidates as using
+# host candidates is more efficient in terms of resources usage.
 # Note that TCP candidates get lower `priority` than UDP ones, as TCP is not optimal for
 # real-time media transportation.
 #
 # `srflx` identifies the server reflexive candidates. Note that they have lower priority
-# than host candidates. These candidates are discovered thanks to STUN server.
-# The couple public public IP-port are included after the priority.
+# than host candidates. These candidates are discovered thanks to **STUN server**.
+# The couple public IP-port are included after the priority.
 # The couple private IP-port after typ srflx raddr are the private IP:port related
 # (there is a NAT binding) to the public IP:port where the traffic is going to be received.
-# In case we have any relay candidate, it will be obtained from a TURN server which must
+# In case we have any relay candidate, it will be obtained from a **TURN server** which must
 # be provisioned when creating the RTC peer connection. The priority will be lower than
 # the host and reflex candidates as relay should be used if *hole punching* is not working
 # with host and reflex candidates. For testing purposes you could use the open source
@@ -364,8 +367,16 @@ a=candidate:3793899172 2 tcp 1518280446 192.168.1.36 0 typ host tcptype active g
 a=candidate:1521601408 1 udp 1686052607 83.49.46.37 63955 typ srflx raddr 192.168.1.36 rport 63955 generation 0
 a=candidate:1521601408 2 udp 1686052606 83.49.46.37 59844 typ srflx raddr 192.168.1.36 rport 59844 generation 0
 
-# Comparing with Firefox
-# ------------------------
+# Firefox payload
+# ---------------
+# Below you can find the SDP offered while doing an outbound call from TU Go web client running on Firefox 43.0.4. Main differences are:
+# - in `o` line includes a browser description (instead of `-`).
+# - includes [trickle ice](https://tools.ietf.org/html/draft-ietf-mmusic-trickle-ice-02) in the SDP.
+# - it does not offer neither `ISAC` nor `Telephone event` codecs.
+# - it does not include `BUNDLE` support.
+# - Audio media in `m` line is identified as `sdparta_0` instead of `audio`.
+# - it does not include `TCP candidates`.
+
 #<pre>v=0
 #
 #o=mozilla...THIS_IS_SDPARTA-43.0.4 4597359579147920938 0 IN IP4 0.0.0.0
@@ -417,3 +428,5 @@ a=candidate:1521601408 2 udp 1686052606 83.49.46.37 59844 typ srflx raddr 192.16
 #a=candidate:1 1 UDP 1686052863 88.25.237.250 64727 typ srflx raddr 192.168.1.40 rport 64727
 #
 #a=candidate:1 2 UDP 1686052862 88.25.237.250 61922 typ srflx raddr 192.168.1.40 rport 61922</pre>
+#</pre>
+# &nbsp;

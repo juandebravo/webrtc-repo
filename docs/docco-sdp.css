@@ -53,7 +53,11 @@ ul.sections {
   margin:0;
 }
 
-ul.sections li:first-child, ul.sections li:nth-child(2) {
+ul.sections li:first-child,
+ul.sections li:nth-child(2),
+ul.sections li:nth-child(3),
+ul.sections li:nth-child(28),
+ul.sections li:nth-child(29) {
   border: none;
 }
 
@@ -73,21 +77,18 @@ ul.sections > li {
   visibility: visible;
 }
 
-#title, #section-1, #section-2, #section-27, #section-26 {
+#title, #section-1, #section-2, #section-3, #section-27, #section-28, #section-29 {
   background-color: white;
 }
 
-#section-2 div, #section-27 div {
+#section-2 div, #section-3 div, #section-28 div, #section-29 div {
   max-width: 100%;
 }
 
-#section-2 pre, #section-27 pre {
+#section-3 pre, #section-29 pre {
   font-family: monospace;
   background-color: #EEE;
   padding: 16px;
-}
-
-#section-2 pre {
   line-height: 3px;
 }
 
@@ -318,11 +319,11 @@ ul.sections > li > div {
 @media only screen and (min-width: 1025px) {
 
   #background {
-    width: 525px;
+    width: 600px;
   }
   ul.sections > li > div.annotation {
-    max-width: 525px;
-    min-width: 525px;
+    max-width: 600px;
+    min-width: 600px;
     padding: 10px 25px 1px 50px;
   }
   ul.sections > li > div.content {
