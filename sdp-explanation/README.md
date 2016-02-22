@@ -18,6 +18,6 @@ This folder contains the source code in CoffeeScript format used to generate an 
 ## Generate HTML files
 
 ```bash
-docco -l classic -c docco-sdp.css sdp-explanation/*
+docco -l classic -c docco-sdp.css sdp-explanation/* -o ../webrtc-repo-dist/
 ```
 
