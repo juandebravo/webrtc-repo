@@ -687,7 +687,12 @@ a=candidate:<span class="hljs-number">1521601408</span> <span class="hljs-number
 <ul>
 <li>in <code>o</code> line includes a browser description (instead of <code>-</code>).</li>
 <li>includes <a href="https://tools.ietf.org/html/draft-ietf-mmusic-trickle-ice-02">trickle ice</a> in the SDP.</li>
-<li>it does not offer neither <code>ISAC</code> nor <code>Telephone event</code> codecs.</li>
+<li>it does not offer <code>ISAC</code> codec.</li>
+<li>it does not offer <code>Telephone event</code> codec. This prevents DTMF native support in Firefox.
+   There’s an <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1012645">open bug in Bugzilla</a>
+   to tackle this requirement in the future. Currently a workaround is required to solve this issue.
+   <a href="https://hacks.mozilla.org/2015/11/webrtc-sending-dtmf-in-firefox/">Here you could find a way to solve it by means of intercepting calls to addTrack</a>.
+   In TU Go, we solved it by including a new method in our propietary protocol that will signal the server side which tones should be sent to the other side.</li>
 <li>it does not include <code>BUNDLE</code> support.</li>
 <li>Audio media in <code>m</code> line is identified as <code>sdparta_0</code> instead of <code>audio</code>.</li>
 <li>it does not include <code>TCP candidates</code>.</li>
