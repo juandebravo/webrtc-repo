@@ -372,7 +372,12 @@ a=candidate:1521601408 2 udp 1686052606 83.49.46.37 59844 typ srflx raddr 192.16
 # Below you can find the SDP offered while doing an outbound call from TU Go web client running on Firefox 43.0.4. Main differences are:
 # - in `o` line includes a browser description (instead of `-`).
 # - includes [trickle ice](https://tools.ietf.org/html/draft-ietf-mmusic-trickle-ice-02) in the SDP.
-# - it does not offer neither `ISAC` nor `Telephone event` codecs.
+# - it does not offer `ISAC` codec.
+# - it does not offer `Telephone event` codec. This prevents DTMF native support in Firefox.
+#      There’s an [open bug in Bugzilla](https://bugzilla.mozilla.org/show_bug.cgi?id=1012645)
+#      to tackle this requirement in the future. Currently a workaround is required to solve this issue.
+#      [Here you could find a way to solve it by means of intercepting calls to addTrack](https://hacks.mozilla.org/2015/11/webrtc-sending-dtmf-in-firefox/).
+#      In TU Go, we solved it by including a new method in our propietary protocol that will signal the server side which tones should be sent to the other side.
 # - it does not include `BUNDLE` support.
 # - Audio media in `m` line is identified as `sdparta_0` instead of `audio`.
 # - it does not include `TCP candidates`.
