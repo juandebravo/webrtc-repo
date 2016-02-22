@@ -21,3 +21,8 @@ This folder contains the source code in CoffeeScript format used to generate an 
 docco -l classic -c docco-sdp.css sdp-explanation/* -o ../webrtc-repo-dist/
 ```
 
+## Deployment
+```bash
+rsync -r -e ssh ../webrtc-repo-dist/* connect-dev:/opt/jdbd/webrtc
+```
+
