@@ -4,7 +4,7 @@
 #
 # Chrome payload
 # --------------
-# This is an example of the SDP payload used in the TU Go web client while sending an offer from the client running on **Chrome version 47**.
+# This is an example of the SDP payload used in the TU Go web client while **sending an offer from the client running on Chrome version 47**.
 #<pre><a href="#section-4">v=0</a>
 #
 #o=- 267107056528738969 2 IN IP4 127.0.0.1

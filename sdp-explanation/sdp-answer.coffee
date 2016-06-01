@@ -4,7 +4,7 @@
 #
 # Chrome payload
 # --------------
-# This is an example of the SDP payload received in the TU Go web client after sending an offer from the client running on **Chrome version 47** (answered coming from the server side).
+# This is an example of the SDP payload **received in the TU Go web client as part of the 200 OK after sending an offer from the client running on Chrome version 47** (answered coming from the server side).
 #<pre>v=0
 #
 #o=FreeSWITCH 1457608949 1457608950 IN IP4 91.220.9.62
@@ -247,41 +247,4 @@ a=ice-pwd:5TNhQCvCQjPnyT80DDsiKufT
 # real-time media transportation.
 # The couple public IP-port are included after the priority.
 a=candidate:0603174798 1 udp 659136 91.220.9.62 15520 typ host generation 0
-
-
-
-
-
-
-
-
-
-
-~ MISSING ~:
-
-# [RFC3550](http://www.ietf.org/rfc/rfc3550.txt) defines the capability to **extend the RTP header**.
-# This line defines extensions which will be used in RTP headers so that the receiver
-# can decode it correctly and extract the metadata.
-# In this case the browser is indicating that we are going to include information on the audio
-# level in the RTP header as defined in [RFC6464](http://tools.ietf.org/html/rfc6464).
-a=extmap:1 urn:ietf:params:rtp-hdrext:ssrc-audio-level
-
-# [RFC3550](http://www.ietf.org/rfc/rfc3550.txt) defines the capability to **extend the RTP header**.
-# This line defines extensions which will be used in RTP headers so that the receiver
-# can decode it correctly and extract the metadata.
-# In this case the browser is indicating that will stamp RTP packets with a timestamp
-# showing the departure time from the system that put this packet on the wire
-# (or as close to this as we can manage).
-# [Further info can be found here](https://webrtc.org/experiments/rtp-hdrext/abs-send-time/).
-a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time
-
-# This line says that the browser is willing to both **send and receive audio** in this session.
-# Other values could be `sendonly`, `recvonly` and `inactive` which are used to implement
-# different scenarios like putting calls on-hold.
-a=sendrecv
-
-# The `ptime`, **packetization time**, refers to the media duration, in milliseconds, to include
-# in each RTP packet. This has important implications on the effects of packet loss and in the
-# overhead for the stream.
-a=maxptime:60
 
