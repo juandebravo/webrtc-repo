@@ -73,7 +73,7 @@ ul.sections > li {
 }
 
 #title > div > h1:after {
-  content: "TU Go web client SDP offer";
+  content: "TU Go web client offer and answer";
   visibility: visible;
 }
 
